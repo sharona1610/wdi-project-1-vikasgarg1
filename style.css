@@ -2,18 +2,18 @@
   body {
     transition: background-color 50s ease;
     background: #DE1457;
-    color: #fff;
+    color: white;
     font-family: fantasy;
-    font-size: 2em;
+    font-size: 24px;
     text-align: center;
   }
 
   body:hover {
-    background-color: #ECF31B;
+    background: #ECF31B;
   }
 
   canvas {
-    border: solid .2em orange;
+    border: solid 4px orange;
     height: 90vh;
   }
 

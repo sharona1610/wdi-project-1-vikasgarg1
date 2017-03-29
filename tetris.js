@@ -1,34 +1,36 @@
 var canvas = document.getElementById('tetris');
-var context = canvas.getContext('2d');
+var ctx = canvas.getContext('2d');
 
-context.scale(20, 20);
+ctx.scale(20, 20);
 
-function arenaSweep() {
-  let rowCount = 1;
-  outer: for (let y = arena.length - 1; y > 0; --y) {
-    for (let x = 0; x < arena[y].length; ++x) {
-      if (arena[y][x] === 0) {
+// in order to collect the rows and take them out, we need to clear the rows. Using a for loop, need to check if any of the rows have a 0 in them which means they aren't full yet. iterate from the bottom up, which is playArea.length - 1. if any of the rows have a 0 we can continue. continue outer iterates the function over the lines as long as there are 0s.
+function playAreaSweep() {
+  var rowCount = 1;
+  outer: for (var y = playArea.length - 1; y > 0; y--) {
+    for (var x = 0; x < playArea[y].length; x++) {
+      if (playArea[y][x] === 0) {
         continue outer;
       }
     }
-
-    var row = arena.splice(y, 1)[0].fill(0);
-    arena.unshift(row);
-    ++y;
+    // playArea splice brings out the row(s) that is fully populated and adds a row of 0s. index is y and length of the splice is y, then we fill the index y rows with empty 0s using unshift for the rows and offsetting the y rows.
+    var row = playArea.splice(y, 1)[0].fill(0);
+    playArea.unshift(row);
+    y++;
 
     player.score += rowCount * 10;
     rowCount *= 2;
+    // the rowCount *=2 means that for each additional row you take the point value of the prior row and multiply by 2 and sum all points
   }
 }
-
-function collide(arena, player) {
+// if the piece gets to a row that's not part of the playArea it is colliding. we check the player matrix on index y and x, and if not true we continue. if the row doesn't exist we have collided.
+function collide(playArea, player) {
   var m = player.matrix;
   var o = player.pos;
-  for (let y = 0; y < m.length; ++y) {
-    for (let x = 0; x < m[y].length; ++x) {
+  for (var y = 0; y < m.length; y++) {
+    for (var x = 0; x < m[y].length; x++) {
       if (m[y][x] !== 0 &&
-        (arena[y + o.y] &&
-          arena[y + o.y][x + o.x]) !== 0) {
+        (playArea[y + o.y] &&
+          playArea[y + o.y][x + o.x]) !== 0) {
         return true;
       }
     }
@@ -94,8 +96,8 @@ function drawMatrix(matrix, offset) {
   matrix.forEach((row, y) => {
     row.forEach((value, x) => {
       if (value !== 0) {
-        context.fillStyle = colors[value];
-        context.fillRect(x + offset.x,
+        ctx.fillStyle = colors[value];
+        ctx.fillRect(x + offset.x,
           y + offset.y,
           1, 1);
       }
@@ -103,30 +105,42 @@ function drawMatrix(matrix, offset) {
   });
 }
 
-function draw() {
-  context.fillStyle = 'brown';
-  context.fillRect(0, 0, canvas.width, canvas.height);
+var colors = [
+  null,
+  'red',
+  'blue',
+  'green',
+  'purple',
+  'yellow',
+  'white',
+  'teal',
+];
 
-  drawMatrix(arena, {
+function draw() {
+  ctx.fillStyle = 'brown';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // we draw the new pieces from x and y = 0
+  drawMatrix(playArea, {
     x: 0,
-    y: 0
+    y: 0,
   });
   drawMatrix(player.matrix, player.pos);
 }
 
-function merge(arena, player) {
+function merge(playArea, player) {
   player.matrix.forEach((row, y) => {
     row.forEach((value, x) => {
       if (value !== 0) {
-        arena[y + player.pos.y][x + player.pos.x] = value;
+        playArea[y + player.pos.y][x + player.pos.x] = value;
       }
     });
   });
 }
 
 function rotate(matrix, dir) {
-  for (let y = 0; y < matrix.length; ++y) {
-    for (let x = 0; x < y; ++x) {
+  for (var y = 0; y < matrix.length; y++) {
+    for (var x = 0; x < y; x++) {
       [
         matrix[x][y],
         matrix[y][x],
@@ -143,44 +157,45 @@ function rotate(matrix, dir) {
     matrix.reverse();
   }
 }
-
+// when a piece touches the bottom it should restart with a piece from the top. using the collide function built earlier.
 function playerDrop() {
   player.pos.y++;
-  if (collide(arena, player)) {
+  if (collide(playArea, player)) {
     player.pos.y--;
-    merge(arena, player);
+    merge(playArea, player);
     playerReset();
-    arenaSweep();
+    playAreaSweep();
     updateScore();
   }
   dropCounter = 0;
 }
-
+// need to set the boundaries on the right and left side of the playArea so if the piece moves and collides in the arena,
 function playerMove(offset) {
   player.pos.x += offset;
-  if (collide(arena, player)) {
+  if (collide(playArea, player)) {
     player.pos.x -= offset;
   }
 }
 
+// in order to get a random piece every time, we use the reset function, list all the pieces, and then create a new piece. put the player at the top row and the middle of the column (playArea.length / 2 floored). when a new piece comes down we also need to update the score and fill play area with 0s.
 function playerReset() {
   var pieces = 'TJLOSZI';
   player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
   player.pos.y = 0;
-  player.pos.x = (arena[0].length / 2 | 0) -
+  player.pos.x = (playArea[0].length / 2 | 0) -
     (player.matrix[0].length / 2 | 0);
-  if (collide(arena, player)) {
-    arena.forEach(row => row.fill(0));
+  if (collide(playArea, player)) {
+    playArea.forEach(row => row.fill(0));
     player.score = 0;
     updateScore();
   }
 }
-
+// the player rotate function will run and if there is a collision with the play area as it rotates, the piece will be offset while that continues to happen. If offset is greater than 0, piece will be offset by 1 else -1
 function playerRotate(dir) {
   var pos = player.pos.x;
-  let offset = 1;
+  var offset = 1;
   rotate(player.matrix, dir);
-  while (collide(arena, player)) {
+  while (collide(playArea, player)) {
     player.pos.x += offset;
     offset = -(offset + (offset > 0 ? 1 : -1));
     if (offset > player.matrix[0].length) {
@@ -191,10 +206,10 @@ function playerRotate(dir) {
   }
 }
 
-let dropCounter = 0;
-let dropInterval = 1000;
+var dropCounter = 0;
+var dropInterval = 1000;
 
-let lastTime = 0;
+var lastTime = 0;
 
 function update(time = 0) {
   var deltaTime = time - lastTime;
@@ -212,6 +227,33 @@ function update(time = 0) {
 
 function updateScore() {
   document.getElementById('score').innerText = player.score;
+  moveFaster();
+}
+
+function moveFaster() {
+  if (player.score < 100) {
+    dropInterval = 1000;
+  } else if (player.score <= 200) {
+    dropInterval = 900;
+  } else if (player.score <= 300) {
+    dropInterval = 800;
+  } else if (player.score <= 400) {
+    dropInterval = 700;
+  } else if (player.score <= 500) {
+    dropInterval = 600;
+  } else if (player.score <= 600) {
+    dropInterval = 500;
+  } else if (player.score <= 700) {
+    dropInterval = 400;
+  } else if (player.score <= 800) {
+    dropInterval = 300;
+  } else if (player.score <= 900) {
+    dropInterval = 200;
+  } else if (player.score <= 1000) {
+    dropInterval = 100;
+  } else if (player.score <= 2000) {
+    dropInterval = 50;
+  }
 }
 
 document.addEventListener('keydown', event => {
@@ -228,18 +270,7 @@ document.addEventListener('keydown', event => {
   }
 });
 
-var colors = [
-  null,
-  '#FF0D72',
-  '#0DC2FF',
-  '#0DFF72',
-  '#F538FF',
-  '#FF8E0D',
-  '#FFE138',
-  '#3877FF',
-];
-
-var arena = createMatrix(12, 20);
+var playArea = createMatrix(12, 20);
 
 var player = {
   pos: {
