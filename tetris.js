@@ -24,13 +24,11 @@ function playAreaSweep() {
 }
 // if the piece gets to a row that's not part of the playArea it is colliding. we check the player matrix on index y and x, and if not true we continue. if the row doesn't exist we have collided.
 function collide(playArea, player) {
-  var m = player.matrix;
-  var o = player.pos;
-  for (var y = 0; y < m.length; y++) {
-    for (var x = 0; x < m[y].length; x++) {
-      if (m[y][x] !== 0 &&
-        (playArea[y + o.y] &&
-          playArea[y + o.y][x + o.x]) !== 0) {
+  for (var y = 0; y < player.matrix.length; y++) {
+    for (var x = 0; x < player.matrix[y].length; x++) {
+      if (player.matrix[y][x] !== 0 &&
+        (playArea[y + player.pos.y] &&
+          playArea[y + player.pos.y][x + player.pos.x]) !== 0) {
         return true;
       }
     }
@@ -252,7 +250,7 @@ function moveFaster() {
   } else if (player.score <= 1000) {
     dropInterval = 100;
   } else if (player.score <= 2000) {
-    dropInterval = 50;
+    dropInterval = 50
   }
 }
 
