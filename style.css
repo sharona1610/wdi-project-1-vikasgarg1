@@ -1,0 +1,33 @@
+
+  body {
+    transition: background-color 50s ease;
+    background: #DE1457;
+    color: white;
+    font-family: fantasy;
+    font-size: 24px;
+    text-align: center;
+  }
+
+  body:hover {
+    background: #ECF31B;
+  }
+
+  canvas {
+    border: solid 4px orange;
+    height: 90vh;
+  }
+
+  h1 {
+    font-family: fantasy;
+  }
+
+  p {
+    font-size: 12px;
+    font-family: fantasy;
+    text-align: center;
+  }
+
+  #score {
+    font-size: 50px;
+    font-family: fantasy;
+  }
