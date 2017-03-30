@@ -1,34 +1,39 @@
-[How to write readme - Markdown CheatSheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)  
-[How to write a good readme for github repo!](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
+# **Vikas' Tetris Game**
 
-# Project Name
-<!---
-Read Me Contents
--->
-Planning stage:
-Tetris has a grid,
+Tetris was created in 1984 by Alexey Pajitnov, an AI researcher working for the Soviet Academy of Sciences in Moscow. Tasked with testing the capabilities of new hardware, Pajitnov would do so by writing simple games for them.
 
-where pieces are constantly moving down until they hit the bottom of the grid,
+If you want to read more about Tetris, please refer to:
+[Tetris on Wikipedia](https://en.wikipedia.org/wiki/Tetris)
 
-pieces have a different shapes, and can be moved left, right or down, and can be rotated,
+Tetris is one of my favorite games of all-time so I thought of honoring Alexey by recreating it.
 
-pieces stop moving when they touch the bottom of the grid or hit another piece that's already there.
+## **Process**
+1. I started by setting up the grid for the game and giving it some style characteristics.
+2. Tetris has 7 different pieces and each of those was set up as an array of arrays and assigned a color.
+3. Functions for player control of the pieces:
+..* left
+..* right
+..* down
+..* rotate left
+..* rotate right
+4. Function to identify and control collisions and force pieces to stay within the grid.
+5. Functions to automatically move pieces down in 1 second increments, gradually increasing in speed as the player's score improves by increments of 100.
+6. Functions for determining when a row is filled, sweeping that row and adding a new row from the top and updating the score or resetting the game when pieces reach the top of the grid.
+7. Addition of CSS styles and transitions to the background for a more enjoyable user experience.
 
-When the current piece stops, next one comes randomly. (I also need to build a preview so the player can see the next piece coming.)
+## **Gameplay**
+1. Pieces drop from the top of the grid and can be controlled using the keyboard arrow keys and the letters "z" or "x".
+2. When 1 or more rows are completely filled with pieces they are swept and a score is added. The following point values are awarded:
+| Rows     | Points   |
+| -------- | -------- |
+| 1        | 10       |
+| 2        | 30       |
+| 3        | 70       |
+| 4        | 150      |
 
-Each piece is composed of 4 small squares.
+## **Issues**
 
-When a piece lands and forms a solid line, the row disappears.
+## **Acknowledgements**
+I had no idea how difficult this project would be and needed a lot of help along the way. Thanks to my fellow students and instructors at GA Singapore for their help getting this to look right. And special thanks for the instructional video on YouTube posted by Meth Meth Method from Sweden!
 
-When the row disappears all other squares move down until they touch the bottom of the grid.
-
-need to create:
-1. a grid
-2. shapes:
-    single square shape
-    block square
-    long rectangle
-    S shape
-    bump shape
-3. make the shapes move down and across the grid.
-4. handle user keystrokes
+[YouTube video "Writing a Tetris Game in Javascript", by Meth Meth Method](https://www.youtube.com/watch?v=H2aW5V46khA)
