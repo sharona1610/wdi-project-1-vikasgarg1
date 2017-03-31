@@ -10,17 +10,20 @@ Tetris is one of my favorite games of all-time so I thought of honoring Alexey b
 ## **Design and Functionality**
 1. I started by setting up the grid for the game and giving it some style characteristics.
 2. Tetris has 7 different pieces and each of those was set up as an array of arrays and assigned a color.
-3. Functions for player control of the pieces:
+3. Functions that dictate what a piece can do and for player control of the pieces:
 - left
 - right
 - down
 - rotate left
 - rotate right
-4. Function to identify and control collisions and force pieces to stay within the grid.
-5. Function to automatically move pieces down in 1 second increments.
-6. Functions for determining when a row is filled, sweeping that row and adding a new row from the top and updating the score or resetting the game when pieces reach the top of the grid.
-7. I've designed the game to be fast. For every 100 points, the pieces move 0.1 seconds faster.
-7. Addition of CSS styles and transitions to the background for a more enjoyable user experience.
+4. Functions that:
+- identify and control collisions and force pieces to stay within the grid.
+- automatically move pieces down in 1 second increments.
+- determine when a row is filled, sweeping that row and adding a new row from the top.
+- updating the score or resetting the game when pieces reach the top of the grid.
+- randomly selecting a new piece to drop down.
+5. The game has 11 levels in score increments of 100. I've designed the game to be fast. For every 100 points, the pieces move 0.1 seconds faster.
+6. Addition of CSS styles and transitions to the background for a more enjoyable user experience.
 
 ## **Languages**
 - HTML
