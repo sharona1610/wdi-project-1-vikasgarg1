@@ -39,5 +39,3 @@ Tetris is one of my favorite games of all-time so I thought of honoring Alexey b
 
 ## **Acknowledgements**
 I had no idea how difficult this project would be and needed a lot of help along the way. Thanks to my fellow students and instructors at GA Singapore for their help getting this to look right. And special thanks for the instructional video on YouTube posted by Meth Meth Method from Sweden!
-
-[YouTube video "Writing a Tetris Game in Javascript", by Meth Meth Method](https://www.youtube.com/watch?v=H2aW5V46khA)
