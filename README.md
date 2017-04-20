@@ -35,7 +35,7 @@ Tetris is one of my favorite games of all-time so I thought of honoring Alexey b
 2. When 1 or more rows are completely filled with pieces they are swept and a score is added. 10, 30, 70, and 150 points are awarded for 1, 2, 3, or 4 rows, respectively.
 
 ## Link to My Tetris Game!
-[Vikas' Tetris Game](https://wdi-sg.github.io/wdi-project-1-vikasgarg1/)
+[Vikas' Tetris Game](https://vikasgarg1.github.io/wdi-project-1-vikasgarg1/)
 
 ## **Acknowledgements**
 I had no idea how difficult this project would be and needed a lot of help along the way. Thanks to my fellow students and instructors at GA Singapore for their help getting this to look right. And special thanks for the instructional video on YouTube posted by Meth Meth Method from Sweden!
